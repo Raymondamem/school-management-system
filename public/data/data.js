@@ -1,0 +1,80 @@
+export default [
+    {
+        id: 1,
+        name: "Grace",
+        title: "a movie of centered power",
+        course: "mechatronics",
+        sex: "male",
+        matric_number: "18/130002",
+        fee: {
+            amount: 45000,
+            payed: true,
+            pay_id: "fzdgqw53243"
+        }
+    },
+    {
+        id: 2,
+        name: "Emmanuel",
+        title: "a movie of centered grace",
+        course: "accounting",
+        sex: "female",
+        matric_number: "18/130003",
+        fee: {
+            amount: 47000,
+            payed: true,
+            pay_id: "fzdgqwfdger"
+        }
+    },
+    {
+        id: 3,
+        name: "Hope",
+        title: "a movie of centered love",
+        course: "btech",
+        sex: "female",
+        matric_number: "18/130004",
+        fee: {
+            amount: 56000,
+            payed: false,
+            pay_id: null
+        }
+    },
+    {
+        id: 4,
+        name: "John",
+        title: "a movie of centered hope",
+        course: "banking",
+        sex: "male",
+        matric_number: "18/130005",
+        fee: {
+            amount: 76540,
+            payed: false,
+            pay_id: null
+        }
+    },
+    {
+        id: 5,
+        name: "Ann",
+        title: "a movie of centered happy",
+        course: "agric",
+        sex: "male",
+        matric_number: "18/130006",
+        fee: {
+            amount: 105000,
+            payed: true,
+            pay_id: "fdge43543dc"
+        }
+    },
+    {
+        id: 6,
+        name: "Reedwan",
+        title: "a movie of centered Reedwan happy",
+        course: "tech guy",
+        sex: "male",
+        matric_number: "18/130007",
+        fee: {
+            amount: 205000,
+            payed: false,
+            pay_id: "dsfhbsfgbbant"
+        }
+    }
+]
