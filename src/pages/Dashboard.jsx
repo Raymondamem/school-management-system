@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { json } from "react-router-dom";
 // import { useLocation } from 'react-router-dom';
 import data from '/public/data/data';
 import boxs from '/public/data/boxs';
 import "../assets/scss/style.css";
 import Boxs from '../components/Boxs';
+import jsonData from '/public/data/jsonData';
 
 export default function Dashboard(props) {
     const [boxsGot, alterBoxs] = useState(boxs)
@@ -17,7 +19,8 @@ export default function Dashboard(props) {
         tougths: true,
         url: "https://www.cometochurch.com",
         isFave: false
-    })
+    });
+    const [isDark, setIsDark] = useState(true);
     const handleAdd = () => {
         const updateArr = [...arr, "john"];
         addItem(prev => prev = updateArr)
@@ -70,7 +73,26 @@ export default function Dashboard(props) {
             </div>
         )
     })
+    function LocalStorageFunc() {
+        const [userComment, setUserComment] = useState("");
 
+        function commentFunc() {
+            return setUserComment();
+        }
+
+        return (
+            <>
+                <article className='text-black'>
+                    <header>
+                        <h1>Welcome to local storage test!</h1>
+                        <form>
+                            <input type="text" onChange={commentFunc} name='comment' value={userComment} placeholder='Comment 👍' className='text-[black]' />
+                        </form>
+                    </header>
+                </article>
+            </>
+        )
+    }
     function FormElement() {
         const [formInputs, setFormInputs] = useState({
             firstName: "",
@@ -84,9 +106,11 @@ export default function Dashboard(props) {
             employment: "",
             favColor: ""
         });
+        const [fetchState, setFetchState] = useState("welcome to hobbits")
+        const [windoewWidth, setwindoewWidth] = useState(window.innerWidth)
+        const [toggler, settoggler] = useState(true)
 
         // console.log(formInputs);
-
         function handleFormInputs(event) {
             const { name, value, type, checked } = event.target;
             // console.log(`type: ${type}, name: ${name}, value: ${value}, checked: ${checked}`);
@@ -119,79 +143,118 @@ export default function Dashboard(props) {
             console.log("Password incurrect!");
             return;
         }
+        // making use of useffect for listening for dom changes and render or executing a command based on dom or some states valuse change👌
+        // big rubish trying to do ... below
+        // useEffect(() => {
+        //     async function asyncFunc() {
+        //         const fetcher = await fetch(jsonData);
+        //         const jsoner = json(fetcher);
+        //         console.log("fetch effect! ", jsoner);
+        //         setFetchState(jsoner);
+        //     }
+        //     asyncFunc();
+
+        //     return () => {
+        //         asyncFunc();
+        //     }
+        // }, [counter])
+        // effect not fully working somehow, 😂now working perfectlly
+        useEffect(() => {
+            const watchWidth = () => {
+                // console.log("Settingup Effect!", windoewWidth);
+                setwindoewWidth(window.innerWidth);
+            }
+            window.addEventListener("resize", watchWidth);
+            return () => {
+                // console.log("Cleaningup Effect!", windoewWidth);
+                window.removeEventListener("resize", watchWidth);
+            }
+        }, [windoewWidth]);
+        // console.log("Outside effect ran", windoewWidth);
+        // end of not fully working effect somehow, 😂now working perfectlly
 
         return (
-            <form onSubmit={handleFormSubmition} className='min-h-[50vh] bg-[brown] py-[2rem] flex flex-col gap-[1rem] text-[black]'>
-                <input type="text" onChange={handleFormInputs} name='firstName' value={formInputs.firstName} placeholder='Firest name' className='text-[black]' />
-                <input type="text" onChange={handleFormInputs} name='lasttName' value={formInputs.lasttName} placeholder='Last name' className='text-[black]' />
-                <input type="email" onChange={handleFormInputs} name='email' value={formInputs.email} placeholder='Email' className='text-[black]' />
-                <input type="password" onChange={handleFormInputs} name='password' value={formInputs.password} placeholder='password' className='text-[black]' />
-                <input type="password" onChange={handleFormInputs} name='confirmpassword' value={formInputs.confirmpassword} placeholder='confirmpassword' className='text-[black]' />
-                <textarea onChange={handleFormInputs} value={formInputs.comments} placeholder='Drop your comments here' name="comments" cols="30" rows="10" />
-                <div className='text-white'>
-                    <input type="checkbox" className='mr-3' name="isFrendly" id="isFrendly" onChange={handleFormInputs} checked={formInputs.isFrendly} />
-                    <label htmlFor="isFrendly">Are you freindly?</label>
+            <>
+                <div className='bg-[black]'>
+                    <button className='p-3 bg-slate-200 text-[black] mb-1' onClick={() => settoggler(prev => !prev)}>Toggle state</button>
+                    {toggler && <p className='p-3 bg-slate-200 text-[black]'>{windoewWidth} - {fetchState}</p>}
                 </div>
-                <fieldset className='text-white'>
-                    <legend>Employment status</legend>
-                    <input
-                        type="radio"
-                        id="Unemployed"
-                        className='mr-3'
-                        onChange={handleFormInputs}
-                        name="employment"
-                        value="Unemployed"
-                        checked={formInputs.employment === "Unemployed"}
-                    />
-                    <label htmlFor="Unemployed">Unemployed</label>
-                    <br />
-                    <input
-                        type="radio"
-                        id="Employed"
-                        className='mr-3'
-                        onChange={handleFormInputs}
-                        name="employment"
-                        value="Employed"
-                        checked={formInputs.employment === "Employed"}
-                    />
-                    <label htmlFor="Employed">Employed</label>
-                    <br />
-                    <input
-                        type="radio"
-                        id="Student"
-                        className='mr-3'
-                        onChange={handleFormInputs}
-                        name="employment"
-                        value="Student"
-                        checked={formInputs.employment === "Student"}
-                    />
-                    <label htmlFor="Student">Student</label>
-                    <br />
-                </fieldset>
-                <select id='favColor' name="favColor" value={formInputs.favColor} onChange={handleFormInputs}>
-                    <option value="red">Red</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="gold">Gold</option>
-                    <option value="purple">Purple</option>
-                </select>
-                <div>
-                    {/* <button className='bg-[white] text-[brown] p-3 mx-5' type="reset" onClick={resetForm}>Reset</button> */}
-                    <button className='bg-[white] text-[brown] p-3 mx-5' type="submit">Send</button>
-                </div>
-                <div className='text-white'>
-                    <input type="checkbox" className='mr-3' name="newsletter" id="newsletter" onChange={handleFormInputs} checked={formInputs.newsletter} />
-                    <label htmlFor="newsletter">Would you like to join the news letter?</label>
-                </div>
-            </form>
+                <form onSubmit={handleFormSubmition} className='min-h-[50vh] bg-[brown] py-[2rem] flex flex-col gap-[1rem] text-[black]'>
+                    <input type="text" onChange={handleFormInputs} name='firstName' value={formInputs.firstName} placeholder='Firest name' className='text-[black]' />
+                    <input type="text" onChange={handleFormInputs} name='lasttName' value={formInputs.lasttName} placeholder='Last name' className='text-[black]' />
+                    <input type="email" onChange={handleFormInputs} name='email' value={formInputs.email} placeholder='Email' className='text-[black]' />
+                    <input type="password" onChange={handleFormInputs} name='password' value={formInputs.password} placeholder='password' className='text-[black]' />
+                    <input type="password" onChange={handleFormInputs} name='confirmpassword' value={formInputs.confirmpassword} placeholder='confirmpassword' className='text-[black]' />
+                    <textarea onChange={handleFormInputs} value={formInputs.comments} placeholder='Drop your comments here' name="comments" cols="30" rows="10" />
+                    <div className='text-white'>
+                        <input type="checkbox" className='mr-3' name="isFrendly" id="isFrendly" onChange={handleFormInputs} checked={formInputs.isFrendly} />
+                        <label htmlFor="isFrendly">Are you freindly?</label>
+                    </div>
+                    <fieldset className='text-white'>
+                        <legend>Employment status</legend>
+                        <input
+                            type="radio"
+                            id="Unemployed"
+                            className='mr-3'
+                            onChange={handleFormInputs}
+                            name="employment"
+                            value="Unemployed"
+                            checked={formInputs.employment === "Unemployed"}
+                        />
+                        <label htmlFor="Unemployed">Unemployed</label>
+                        <br />
+                        <input
+                            type="radio"
+                            id="Employed"
+                            className='mr-3'
+                            onChange={handleFormInputs}
+                            name="employment"
+                            value="Employed"
+                            checked={formInputs.employment === "Employed"}
+                        />
+                        <label htmlFor="Employed">Employed</label>
+                        <br />
+                        <input
+                            type="radio"
+                            id="Student"
+                            className='mr-3'
+                            onChange={handleFormInputs}
+                            name="employment"
+                            value="Student"
+                            checked={formInputs.employment === "Student"}
+                        />
+                        <label htmlFor="Student">Student</label>
+                        <br />
+                    </fieldset>
+                    <select id='favColor' name="favColor" value={formInputs.favColor} onChange={handleFormInputs}>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="gold">Gold</option>
+                        <option value="purple">Purple</option>
+                    </select>
+                    <div>
+                        {/* <button className='bg-[white] text-[brown] p-3 mx-5' type="reset" onClick={resetForm}>Reset</button> */}
+                        <button className='bg-[white] text-[brown] p-3 mx-5' type="submit">Send</button>
+                    </div>
+                    <div className='text-white'>
+                        <input type="checkbox" className='mr-3' name="newsletter" id="newsletter" onChange={handleFormInputs} checked={formInputs.newsletter} />
+                        <label htmlFor="newsletter">Would you like to join the news letter?</label>
+                    </div>
+                </form>
+            </>
         )
+    }
+    function toggleDackMode() {
+        setIsDark(prev => !prev);
     }
     return (
         <>
-            {/* forms in react and how to track them with states */}
+            <LocalStorageFunc />
             <FormElement />
-            <div className="flex flex-row justify-between pb-10">
+            <button className='p-3 bg-[black] text-white' onClick={toggleDackMode}>dark mode</button>
+            <div className={isDark ? "!bg-[black] dark flex flex-row justify-between pb-10" : "flex flex-row justify-between pb-10"}>
                 <div className='w-[50%]'>
                     <h1>{props.currentPage}</h1>
                     <input type="text" name="name" id="name" />
