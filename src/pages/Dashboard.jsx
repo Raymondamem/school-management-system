@@ -74,11 +74,16 @@ export default function Dashboard(props) {
         )
     })
     function LocalStorageFunc() {
-        const [userComment, setUserComment] = useState("");
+        const [userComment, setUserComment] = useState(JSON.parse(localStorage.getItem("userComments")) || "");
 
-        function commentFunc() {
-            return setUserComment();
+        function commentFunc(event) {
+            const { name, value, type } = event.target;
+            return setUserComment(value);
         }
+
+        useEffect(() => {
+            localStorage.setItem("userComments", JSON.stringify(userComment));
+        }, [userComment])
 
         return (
             <>
@@ -87,6 +92,8 @@ export default function Dashboard(props) {
                         <h1>Welcome to local storage test!</h1>
                         <form>
                             <input type="text" onChange={commentFunc} name='comment' value={userComment} placeholder='Comment 👍' className='text-[black]' />
+                            <input className="block p-3 bg-[white] my-2" value={userComment}>
+                            </input>
                         </form>
                     </header>
                 </article>
@@ -94,7 +101,7 @@ export default function Dashboard(props) {
         )
     }
     function FormElement() {
-        const [formInputs, setFormInputs] = useState({
+        const [formInputs, setFormInputs] = useState(JSON.parse(localStorage.getItem("formInputs")) || {
             firstName: "",
             lasttName: "",
             email: "",
@@ -170,6 +177,10 @@ export default function Dashboard(props) {
                 window.removeEventListener("resize", watchWidth);
             }
         }, [windoewWidth]);
+
+        useEffect(() => {
+            localStorage.setItem("formInputs", JSON.stringify(formInputs));
+        }, [formInputs])
         // console.log("Outside effect ran", windoewWidth);
         // end of not fully working effect somehow, 😂now working perfectlly
 
