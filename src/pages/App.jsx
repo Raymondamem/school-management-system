@@ -7,17 +7,18 @@ import Footer from '../components/Footer';
 import Signup from './Signup';
 import Signin from './Signin';
 import Dashboard from './Dashboard';
-
+import NotFound from '../components/NotFound.jsx';
 
 export default function App() {
 
   return (
     <BrowserRouter>
       <Header />
-      <div className='bg-pattern text-dark-700 min-h-screen pt-[5rem]'>
+      <div className='bg-pattern text-dark-700 h-[100%] pt-[0rem]'>
         <div className='w-[90%] m-auto'>
           <Routes>
             <Route index element={<Home />} />
+            <Route path="*" element={<NotFound />} />
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />
             <Route path={`/dashboard:${1}`} element={<Dashboard currentPage="Dashboard Home-page" />} />

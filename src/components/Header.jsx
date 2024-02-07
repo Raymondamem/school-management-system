@@ -14,7 +14,7 @@ export default function Header() {
     let location = useLocation();
 
     return (
-        <header className='fixed left-0 top-0 min-w-full bg-[white] z-10'>
+        <header className='sticky top-0 w-full bg-[white] z-10'>
             <div className='w-[90%] m-auto flex justify-between'>
                 <Link to={"/"} className='flex justify-between pt-[1rem]'>
                     <span className='text-indigo font-black'>

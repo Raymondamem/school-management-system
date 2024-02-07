@@ -1,8 +1,7 @@
+import React, { useRef } from 'react';
 export default function Footer() {
-
+    const footerDate = new Date().getFullYear();
     return (
-        <div className='bg-dark-300 text-white font-200 text-center'>
-            <p>Copyright &copy; all rights reserved {new Date().getFullYear()}</p>
-        </div>
+        <p className='sticky bottom-0 bg-[black] flex text-white justify-center'>Copyright &copy; all rights reserved {footerDate}</p>
     );
 }
